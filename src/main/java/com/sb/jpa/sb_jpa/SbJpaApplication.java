@@ -30,42 +30,43 @@ public class SbJpaApplication  implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 
 		//singleEntity();
-		create();
+		//create();
+		edit();
 
 	}
 
 	@Transactional
-	public void create(){
+	public void edit(){
+
 		Scanner scanner = new Scanner(System.in);
+
+		System.out.println("Write the user ID: ");
+		Long id = scanner.nextLong();
+
 		
-		System.out.println("escriba un nombre");
-		String name = scanner.next();
 
-		System.out.println("escriba un apellido");
-		String lastName = scanner.next();
+		_PersonRepository.findById(id).ifPresentOrElse(person -> {
 
-		System.out.println("escriba un atributo");
-		String attribute = scanner.next();
-		scanner.close();
+			System.out.println("USER FOUNDED \nWrite a new name");
+			scanner.nextLine();
+			String name = scanner.nextLine();
 
-		Person person = new Person(
-			null,
-			name,
-			lastName,
-			attribute
-		);
+			System.out.println("Write a new LastName");
+			String lastName = scanner.nextLine();
 
-		var result = _PersonRepository.save(person);
+			System.out.println("Write a new attribute");
+			String attribute = scanner.nextLine();
 
-		if(result.getId() != null){
+			person.setName(name);
+			person.setLastName(lastName);
+			person.setAttribute(attribute);
 
-			System.out.println("Guardado con exito!!!");
+			var result =_PersonRepository.save(person);
 
-		}else{
-
-			System.out.println("ERROR GUARDANDO");
-		}
-
+			System.out.println(result != null ? "SAVED CORRECTLY" : "ERROR SAVING");
+		}, () -> {
+			System.out.println("User not founded with id: "+id);
+		});
 
 	}
 
