@@ -31,8 +31,35 @@ public class SbJpaApplication  implements CommandLineRunner{
 
 		//singleEntity();
 		//create();
-		edit();
+		//edit();
 
+		delete();
+
+	}
+
+	@Transactional
+	public void delete(){
+
+		Scanner scanner = new Scanner(System.in);
+		_PersonRepository.findAll().forEach(System.out::println);
+		
+		System.out.println("Write the user ID to delete: ");
+		Long id = scanner.nextLong();
+
+		scanner.close();
+
+
+		_PersonRepository.findById(id).ifPresentOrElse(p ->{
+			System.out.println("User founded");
+			_PersonRepository.deleteById(p.getId());
+			System.err.println("DELETED");
+
+		},
+		()->{
+			System.out.println("Entity not founded with id: " + id);
+		});
+		
+		
 	}
 
 	@Transactional
@@ -42,7 +69,7 @@ public class SbJpaApplication  implements CommandLineRunner{
 
 		System.out.println("Write the user ID: ");
 		Long id = scanner.nextLong();
-
+		scanner.close();
 		
 
 		_PersonRepository.findById(id).ifPresentOrElse(person -> {
