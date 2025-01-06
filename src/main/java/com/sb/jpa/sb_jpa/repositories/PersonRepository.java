@@ -29,7 +29,9 @@ public interface PersonRepository extends CrudRepository<Person, Long>{
     
     
     //Person
-
+    @Query("SELECT COUNT (DISTINCT (p.name)) from Person p")
+    Long countDisctinctName();
+    
     @Query("SELECT DISTINCT (p.name) from Person p")
     List<String> findAllNamesDistinct();
 

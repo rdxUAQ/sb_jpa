@@ -46,7 +46,20 @@ public class SbJpaApplication  implements CommandLineRunner{
 
 		//getAllNamesCustom();
 
-		getAllNamesDisticntCustom();
+		//getAllNamesDisticntCustom();
+
+		getCountNameDisticnt();
+	}
+
+	@Transactional(readOnly = true)
+	public void getCountNameDisticnt(){
+		System.out.println("==================Get Count Person Distinct==================");
+
+		Long result = _PersonRepository.countDisctinctName();
+
+		System.out.println("Disticnt names count: "+result);
+		
+		
 	}
 
 	@Transactional(readOnly = true)
