@@ -42,9 +42,31 @@ public class SbJpaApplication  implements CommandLineRunner{
 
 		//getMixCustom();
 
-		getPersonDto();
+		//getPersonDto();
 
+		//getAllNamesCustom();
+
+		getAllNamesDisticntCustom();
 	}
+
+	@Transactional(readOnly = true)
+	public void getAllNamesDisticntCustom(){
+		System.out.println("==================Get Names Person Distinct==================");
+
+		List<String> result = _PersonRepository.findAllNamesDistinct();
+		
+		result.forEach(System.out::println);
+	}
+
+	@Transactional(readOnly = true)
+	public void getAllNamesCustom(){
+		System.out.println("==================Get Names Person==================");
+
+		List<String> result = _PersonRepository.findAllNames();
+		
+		result.forEach(System.out::println);
+	}
+
 	@Transactional(readOnly = true)
 	public void getPersonDto(){
 		System.out.println("==================Get Custom Data PersonDto==================");

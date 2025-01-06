@@ -26,7 +26,15 @@ public interface PersonRepository extends CrudRepository<Person, Long>{
     //use a full path for the dto class
     @Query("select new com.sb.jpa.sb_jpa.dto.PersonDto(p.name , p.lastName, p.attribute) from Person p")
     List<PersonDto> findAllPersonDto();
+    
+    
     //Person
+
+    @Query("SELECT DISTINCT (p.name) from Person p")
+    List<String> findAllNamesDistinct();
+
+    @Query("SELECT p.name from Person p")
+    List<String> findAllNames();
 
     @Query("Select concat(p.name, ' ' , p.lastName) From Person p where id=?1")
     String getFullNameById(Long id);
