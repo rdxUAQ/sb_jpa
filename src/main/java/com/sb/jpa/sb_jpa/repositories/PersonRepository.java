@@ -1,10 +1,10 @@
 package com.sb.jpa.sb_jpa.repositories;
 
-import java.util.UUID;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import com.sb.jpa.sb_jpa.dto.PersonDto;
 import com.sb.jpa.sb_jpa.entities.Person;
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +19,14 @@ public interface PersonRepository extends CrudRepository<Person, Long>{
     Optional<Person> findByNameContaining(String name);
 
     //this is case sensitive, use attrib from class instead from db column
+
+
+    //PersonDTO
+
+    //use a full path for the dto class
+    @Query("select new com.sb.jpa.sb_jpa.dto.PersonDto(p.name , p.lastName, p.attribute) from Person p")
+    List<PersonDto> findAllPersonDto();
+    //Person
 
     @Query("Select concat(p.name, ' ' , p.lastName) From Person p where id=?1")
     String getFullNameById(Long id);

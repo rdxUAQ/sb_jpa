@@ -10,6 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sb.jpa.sb_jpa.dto.PersonDto;
 import com.sb.jpa.sb_jpa.entities.Person;
 import com.sb.jpa.sb_jpa.repositories.PersonRepository;
 
@@ -39,8 +40,19 @@ public class SbJpaApplication  implements CommandLineRunner{
 
 		//getPersonFullDataCustom();
 
-		getMixCustom();
+		//getMixCustom();
 
+		getPersonDto();
+
+	}
+	@Transactional(readOnly = true)
+	public void getPersonDto(){
+		System.out.println("==================Get Custom Data PersonDto==================");
+		List<PersonDto> result = _PersonRepository.findAllPersonDto();
+
+		result.forEach(p -> {
+			System.out.println(p.toString());
+		});
 	}
 
 	@Transactional(readOnly = true)
