@@ -1,11 +1,8 @@
 package com.sb.jpa.sb_jpa;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
 
-import javax.print.DocFlavor.STRING;
+import java.util.List;
+import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -40,11 +37,26 @@ public class SbJpaApplication  implements CommandLineRunner{
 
 		//getPersonsFullDataCustom();
 
-		getPersonFullDataCustom();
+		//getPersonFullDataCustom();
+
+		getMixCustom();
 
 	}
 
-	
+	@Transactional(readOnly = true)
+	public void getMixCustom(){
+
+		System.out.println("==================Get mix Custom Data Person==================");
+
+		List<Object[]> result = _PersonRepository.obtenerMixPersonsData();
+
+		result.forEach(p -> {
+			System.out.println("Person: "+p[0]+"\nMix Attrib: "+p[1]);
+		});
+
+
+	}
+
 	@Transactional(readOnly = true)
 	public void getPersonFullDataCustom(){
 
