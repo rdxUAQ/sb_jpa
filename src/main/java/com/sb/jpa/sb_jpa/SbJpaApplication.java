@@ -33,16 +33,123 @@ public class SbJpaApplication  implements CommandLineRunner{
 		//create();
 		//edit();
 
-		delete();
+		//delete();
+
+		//getNameById();
+		//getFullNameById();
+
+		//getPersonsFullDataCustom();
+
+		getPersonFullDataCustom();
 
 	}
 
+	
+	@Transactional(readOnly = true)
+	public void getPersonFullDataCustom(){
+
+		Scanner scanner = new Scanner(System.in);
+
+		_PersonRepository.findAll().forEach(System.out::println);
+
+		System.out.println("Select an id to get full data");
+
+		Long id = scanner.nextLong();
+
+		scanner.close();
+
+		var result = _PersonRepository.obtenerFullPersonDataById(id);
+
+		if (result == null || result.length == 0) {
+			System.out.println("Data not found");
+		} else {
+			System.out.println("Person data:");
+			for (Object attrib : result) {
+				if (attrib instanceof Object[]) {
+					Object[] attribArray = (Object[]) attrib;
+					for (Object attr : attribArray) {
+						System.out.println(attr);
+					}
+				} else {
+					System.out.println(attrib);
+				}
+			}
+		}
+}
+
+
+	
+
+	@Transactional(readOnly = true)
+	public void getPersonsFullDataCustom(){
+
+		var result = _PersonRepository.obtenerFullPersonsData();
+
+		if(result.isEmpty()){
+			System.out.println("Data not founded");
+
+		}else{
+
+			System.out.println("Persons:\n");
+
+			result.forEach(p -> {
+
+				
+				for (Object attrib : p) {
+					System.out.print(attrib+" | ");
+					
+					}
+					System.out.println();
+				
+			});
+		}
+
+
+	}
+
+	@Transactional(readOnly = true)
+	public void getFullNameById(){
+		Scanner scanner = new Scanner(System.in);
+
+		_PersonRepository.findAll().forEach(System.out::println);
+
+		System.out.println("Select an id to get full name");
+
+		Long id = scanner.nextLong();
+
+		scanner.close();
+
+		var result = _PersonRepository.getFullNameById(id);
+
+		System.out.println(result != null ? "Found entity with id: " + id + "\nData: "+ result:"Not founded with id"+id);
+
+		
+	}
+
+	@Transactional(readOnly = true)
+	public void getNameById(){
+
+		Scanner scanner = new Scanner(System.in);
+
+		_PersonRepository.findAll().forEach(System.out::println);
+
+		System.out.println("Write the user ID get its name:");
+		Long id = scanner.nextLong();
+
+		scanner.close();
+
+		var result =_PersonRepository.getNameById(id);
+
+		if(result != null){
+			System.out.println("Name:"+result+"\nfor id result: "+id);
+		}
+	}
 	@Transactional
 	public void delete(){
 
 		Scanner scanner = new Scanner(System.in);
 		_PersonRepository.findAll().forEach(System.out::println);
-		
+
 		System.out.println("Write the user ID to delete: ");
 		Long id = scanner.nextLong();
 

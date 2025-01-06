@@ -20,6 +20,12 @@ public interface PersonRepository extends CrudRepository<Person, Long>{
 
     //this is case sensitive, use attrib from class instead from db column
 
+    @Query("Select concat(p.name, ' ' , p.lastName) From Person p where id=?1")
+    String getFullNameById(Long id);
+
+    @Query("select p.name from Person p where p.id=?1")
+    String getNameById(Long id);
+
     @Query("select p from Person p where p.name=?1")
     Optional<Person> findByNameCustom (String name);
 
@@ -31,10 +37,20 @@ public interface PersonRepository extends CrudRepository<Person, Long>{
 
     @Query("select p.name, p.attribute from Person p")
     List<Object[]> obtenerPersonData();
-    
+
     @Query("select p.name, p.lastName from Person p where p.name=?1 and p.lastName=?2")
     List<Object[]> obtenerPersonDataByNameAndAttrib(String name, String lastName);
 
+
+    //variant
+    @Query("select p.id, p.name, p.lastName, p.attribute from Person p")
+    List<Object[]> obtenerFullPersonsData();
+
+   
+    @Query("select p.id, p.name, p.lastName, p.attribute from Person p Where id=?1")
+    Object[] obtenerFullPersonDataById(Long id);
+    
+    
     
     
 } 
