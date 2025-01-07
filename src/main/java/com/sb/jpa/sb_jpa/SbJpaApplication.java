@@ -2,6 +2,7 @@ package com.sb.jpa.sb_jpa;
 
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,59 @@ public class SbJpaApplication  implements CommandLineRunner{
 
 		//getAllNamesDisticntCustom();
 
-		getCountNameDisticnt();
+		//getCountNameDisticnt();
+
+		//jpqlFunctions();
+
+		jpqlBetween();
+	}
+
+	@Transactional(readOnly = true)
+	public void jpqlBetween(){
+
+
+		System.out.println("==================JPQL BETWEEN ID 2 AND 7==================");
+		_PersonRepository.getBetweenId().forEach(System.out::println);
+
+		System.out.println("==================JPQL BETWEEN Name J AND P ALPHABET==================");
+		_PersonRepository.getBetweenByLetterName().forEach(System.out::println);
+
+
+	}
+
+	@Transactional(readOnly = true)
+	public void jpqlFunctions(){
+
+		Scanner scanner = new Scanner(System.in);
+
+		_PersonRepository.findAll().forEach(System.out::println);
+
+		System.out.println("Select an id to apply JPAQL Functions");
+
+		Long id = scanner.nextLong();
+
+		String result = _PersonRepository.getConcatNameAndAttrib(id);
+
+		if(result != null){
+
+			System.out.println("==================JPAQL CONCAT NAME ATTRIBUTE==================");
+			System.out.println("Concatenated name+attribute = "+result );
+
+			result = _PersonRepository.getNameLower(id);
+			System.out.println("==================JPAQL LOWER NAME==================");
+			System.out.println("lower name = "+result );
+
+			result = _PersonRepository.getNameUpper(id);
+			System.out.println("==================JPAQL UPPER NAME==================");
+			System.out.println("upper name = "+result );
+
+			result = _PersonRepository.getFullnameLowerUpper(id);
+			System.out.println("==================JPAQL LOWER AND UPPER FULLNAME==================");
+			System.out.println("upper and lower fullname name = "+result );
+		}
+
+		
+
 	}
 
 	@Transactional(readOnly = true)

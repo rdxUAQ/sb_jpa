@@ -22,13 +22,38 @@ public interface PersonRepository extends CrudRepository<Person, Long>{
 
 
     //PersonDTO
-
     //use a full path for the dto class
     @Query("select new com.sb.jpa.sb_jpa.dto.PersonDto(p.name , p.lastName, p.attribute) from Person p")
     List<PersonDto> findAllPersonDto();
-    
+
+
+
+
+    //JPQL Funtions examples
+    @Query("SELECT UPPER(p.name) as concatna from Person p WHERE id=?1")
+    String getNameUpper(Long id);
+
+    @Query("SELECT LOWER(p.name) as concatna from Person p WHERE id=?1")
+    String getNameLower(Long id);
+
+    @Query("SELECT CONCAT(Lower(p.name),' ' ,upper(p.lastName)) from Person p WHERE id=?1")
+    String getFullnameLowerUpper(Long id);
+
+    //@Query("SELECT p.name || ' ' || p.attribute as concatna from Person p WHERE id=?1")
+    @Query("SELECT CONCAT(p.name, ' ', p.attribute) as concatna from Person p WHERE id=?1")
+    String getConcatNameAndAttrib(Long id);
+
+    //JPQL BETWEEN
+    //@Query("select p from Person p where p.id between ?1 and ?2") in case parameters needed
+    @Query("select p from Person p where p.id between 2 and 7")
+    List<Person> getBetweenId();
+
+    //@Query("select p from Person p where p.name between ?1 and ?2 ") in case parameters needed
+    @Query("select p from Person p where p.name between 'J' and 'P' ")
+    List<Person> getBetweenByLetterName();
     
     //Person
+
     @Query("SELECT COUNT (DISTINCT (p.name)) from Person p")
     Long countDisctinctName();
     
