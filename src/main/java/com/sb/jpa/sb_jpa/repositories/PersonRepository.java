@@ -49,12 +49,18 @@ public interface PersonRepository extends CrudRepository<Person, Long>{
     //@Query("select p from Person p where p.id between ?1 and ?2") in case parameters needed
     @Query("select p from Person p where p.id between 2 and 7")
     List<Person> getBetweenId();
+    
+    @Query("select p from Person p where p.id  in ?1") 
+    List<Person> getPersonInIds(List<Long> ids);
 
     //@Query("select p from Person p where p.name between ?1 and ?2 ") in case parameters needed
     @Query("select p from Person p where p.name between 'J' and 'P' ")
     List<Person> getBetweenByLetterName();
 
-    //JPQL COUNT MAX MIN LENGTH
+    //JPQL COUNT MAX MIN LENGTH SUM
+    @Query("select min(p.id), max(p.id), sum(p.id), avg(length(p.name)), count(p.id) FROM Person p")
+    public Object getResumeAggFunct();
+
     @Query("SELECT p.name, length(p.name) FROM Person as p WHERE length(p.name) = (SELECT MAX(LENGTH(p2.name)) FROM Person p2)")
     List<String> getLongestName();
 

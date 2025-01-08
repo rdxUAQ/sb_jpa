@@ -1,6 +1,7 @@
 package com.sb.jpa.sb_jpa;
 
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -72,10 +73,23 @@ public class SbJpaApplication  implements CommandLineRunner{
 		System.out.println("Total Persons: "+_PersonRepository.minValuePersonId());
 		System.out.println("==================JPQL Length full name by ID 2==================");
 		System.out.println("Name LENGHT for "+_PersonRepository.getFullNameById(2L)+": "+_PersonRepository.getLengthFullNameById(2L));
+
 		System.out.println("==================JPQL Longest name==================");
 		System.out.println("Longest name: "+_PersonRepository.getLongestName().get(0));
+
 		System.out.println("==================JPQL smallest name==================");
 		System.out.println("smallest name: "+_PersonRepository.getSmallestName().get(0));
+
+		System.out.println("==================JPQL Resume Fucntion aggregation fucntions min, max, sum, avg, count==================");
+		Object[] result = (Object[]) _PersonRepository.getResumeAggFunct();
+		System.out.println("Min= "+result[0]+
+						" Max= "+result[1]+
+						" sum= "+result[2]+
+						" avg= "+result[3]+
+						" count= "+result[4]
+						);
+
+		
 	}
 
 	@Transactional(readOnly = true)
@@ -425,6 +439,9 @@ public class SbJpaApplication  implements CommandLineRunner{
 		DataPersons =  (List<Object[]>) _PersonRepository.obtenerPersonDataByNameAndAttrib("John", "Doe");
 		DataPersons.stream().forEach(e -> System.out.println("Buscar data persona by name and Last Name: "+e[0]+" "+e[1]));
 
+		persons = (List<Person>) _PersonRepository.getPersonInIds(Arrays.asList(1l,2l,5l));
+		persons.stream().forEach(e -> System.out.println("find In IDS: "+e));
+		
 	}
 
 }
