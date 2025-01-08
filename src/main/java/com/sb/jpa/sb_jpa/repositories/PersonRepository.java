@@ -12,11 +12,13 @@ import java.util.Optional;
 
 public interface PersonRepository extends CrudRepository<Person, Long>{
 
+    //default recognized methods
     List<Person> findByAttribute(String attribute);
     List<Person> findByLastName(String lastName);
     List<Person> findByName(String name);
     List<Person> findByNameAndLastName(String name, String lastName);
     Optional<Person> findByNameContaining(String name);
+    List<Person> findAllByOrderByNameDesc();
 
     //this is case sensitive, use attrib from class instead from db column
 
@@ -51,7 +53,27 @@ public interface PersonRepository extends CrudRepository<Person, Long>{
     //@Query("select p from Person p where p.name between ?1 and ?2 ") in case parameters needed
     @Query("select p from Person p where p.name between 'J' and 'P' ")
     List<Person> getBetweenByLetterName();
-    
+
+    //JPQL COUNT MAX MIN
+
+    @Query("Select COUNT(p) FROM Person as p")
+    Long countAllPersons();
+
+    @Query("SELECT MAX(p.id) From Person as p")
+    Long maxValuePersonId();
+
+    @Query("SELECT MIN(p.id) FROM Person as p")
+    Long minValuePersonId();
+
+    //JPQL ORDER BY
+    @Query("SELECT p from Person p ORDER by p.name")
+    List<Person> getPersonsOrderByName();
+    @Query("SELECT p from Person p ORDER by p.name desc")
+    List<Person> getPersonsOrderByNameDesc();
+    @Query("SELECT p from Person p WHERE p.id between ?1 and ?2 ORDER BY p.name")
+    List<Person> getPersonsOrderByNameBetweenId(Long startId, Long endId);
+    @Query("SELECT p from Person p Order by p.name asc, p.lastName desc")
+    List<Person> orderByNameAndLastName();
     //Person
 
     @Query("SELECT COUNT (DISTINCT (p.name)) from Person p")

@@ -53,7 +53,44 @@ public class SbJpaApplication  implements CommandLineRunner{
 
 		//jpqlFunctions();
 
-		jpqlBetween();
+		//jpqlBetween();
+
+		//getOrderByFuctions();
+
+		getCountMaxMin();
+	}
+
+	@Transactional(readOnly = true)
+	public void getCountMaxMin(){
+		System.out.println("==================JPQL COUNT CUSTOM==================");
+		System.out.println("Total Persons: "+_PersonRepository.countAllPersons());
+		System.out.println("==================JPQL COUNT DEFAULT==================");
+		System.out.println("Total Persons: "+_PersonRepository.count());
+		System.out.println("==================JPQL MAX VALUE ID==================");
+		System.out.println("Total Persons: "+_PersonRepository.maxValuePersonId());
+		System.out.println("==================JPQL MIN VALUE ID==================");
+		System.out.println("Total Persons: "+_PersonRepository.minValuePersonId());
+
+	}
+
+	@Transactional(readOnly = true)
+	public void getOrderByFuctions(){
+
+		System.out.println("==================JPQL Order by name ASC==================");
+		_PersonRepository.getPersonsOrderByName().forEach(System.out::println);
+
+		System.out.println("==================JPQL Order by name DESC==================");
+		_PersonRepository.getPersonsOrderByNameDesc().forEach(System.out::println);
+
+		System.out.println("==================JPQL Order by name BEtween 2 and 6=================");
+		_PersonRepository.getPersonsOrderByNameBetweenId(2L,6L).forEach(System.out::println);
+
+		System.out.println("==================JPQL Order by name asc and lastname desc=================");
+		_PersonRepository.orderByNameAndLastName().forEach(System.out::println);
+
+		System.out.println("==================JPQL default find all order by name desc =================");
+		_PersonRepository.findAllByOrderByNameDesc().forEach(System.out::println);
+
 	}
 
 	@Transactional(readOnly = true)
