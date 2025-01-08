@@ -57,11 +57,11 @@ public class SbJpaApplication  implements CommandLineRunner{
 
 		//getOrderByFuctions();
 
-		getCountMaxMin();
+		getCountMaxMinLenght();
 	}
 
 	@Transactional(readOnly = true)
-	public void getCountMaxMin(){
+	public void getCountMaxMinLenght(){
 		System.out.println("==================JPQL COUNT CUSTOM==================");
 		System.out.println("Total Persons: "+_PersonRepository.countAllPersons());
 		System.out.println("==================JPQL COUNT DEFAULT==================");
@@ -70,7 +70,12 @@ public class SbJpaApplication  implements CommandLineRunner{
 		System.out.println("Total Persons: "+_PersonRepository.maxValuePersonId());
 		System.out.println("==================JPQL MIN VALUE ID==================");
 		System.out.println("Total Persons: "+_PersonRepository.minValuePersonId());
-
+		System.out.println("==================JPQL Length full name by ID 2==================");
+		System.out.println("Name LENGHT for "+_PersonRepository.getFullNameById(2L)+": "+_PersonRepository.getLengthFullNameById(2L));
+		System.out.println("==================JPQL Longest name==================");
+		System.out.println("Longest name: "+_PersonRepository.getLongestName().get(0));
+		System.out.println("==================JPQL smallest name==================");
+		System.out.println("smallest name: "+_PersonRepository.getSmallestName().get(0));
 	}
 
 	@Transactional(readOnly = true)

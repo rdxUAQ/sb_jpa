@@ -54,7 +54,15 @@ public interface PersonRepository extends CrudRepository<Person, Long>{
     @Query("select p from Person p where p.name between 'J' and 'P' ")
     List<Person> getBetweenByLetterName();
 
-    //JPQL COUNT MAX MIN
+    //JPQL COUNT MAX MIN LENGTH
+    @Query("SELECT p.name, length(p.name) FROM Person as p WHERE length(p.name) = (SELECT MAX(LENGTH(p2.name)) FROM Person p2)")
+    List<String> getLongestName();
+
+    @Query("SELECT p.name, length(p.name) FROM Person as p WHERE length(p.name) = (SELECT MIN(LENGTH(p2.name)) FROM Person p2)")
+    List<String> getSmallestName();
+
+    @Query("SELECT LENGTH(CONCAT(p.name,' ',p.lastName)) FROM Person p WHERE p.id=?1")
+    Long getLengthFullNameById(Long id);
 
     @Query("Select COUNT(p) FROM Person as p")
     Long countAllPersons();
